@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\hidden.png" />
+    <None Remove="Resources\logo.png" />
+    <None Remove="Resources\logo2.png" />
+    <None Remove="Resources\view.png" />
+    <None Remove="UI\Pages\group-users.png" />
+    <None Remove="UI\Pages\user.png" />
+    <None Remove="UI\Windows\Authorization\hidden.png" />
+    <None Remove="UI\Windows\Authorization\logo.png" />
+    <None Remove="UI\Windows\Authorization\logo2.png" />
+    <None Remove="UI\Windows\Authorization\view.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-rc5.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\hidden.png" />
+    <Resource Include="Resources\logo.png" />
+    <Resource Include="Resources\logo2.png" />
+    <Resource Include="Resources\view.png" />
+    <Resource Include="Resources\group-users.png" />
+    <Resource Include="Resources\user.png" />
+  </ItemGroup>
+
+</Project>

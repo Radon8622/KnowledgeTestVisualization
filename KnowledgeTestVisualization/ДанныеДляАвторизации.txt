@@ -1,0 +1,6 @@
+1, 'IvanovaUD', 'SuperIvanova1998!'
+2, 'PetrovaAP', 'PepodOtBoga777!'
+3, 'BogdanovaEE', 'MonogoE15!'
+4, 'SeleznevFM', 'Qwerty123!'
+5, 'DyakonovDE', 'ParolNadezniy333!'
+6, 'CzarevaAE', 'UstalPridumivat888!'

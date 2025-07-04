@@ -1,0 +1,176 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:KnowledgeTestVisualization.UI.Pages"
+      xmlns:model="clr-namespace:KnowledgeTestVisualization.Model" 
+      xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
+      xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+      x:Class="KnowledgeTestVisualization.UI.Pages.StudentVisualizationPg"
+      mc:Ignorable="d"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="StudentVisualizationPg"
+      Loaded="StudentPage_Loaded">
+    <ScrollViewer>
+        <StackPanel Margin="5">
+            <Expander Header="Студент" IsExpanded="True">
+                <Grid Width="700px" HorizontalAlignment="Left" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Группа"/>
+                    <ComboBox x:Name="GroupNameCbx" Margin="0 10 10 10"
+                      Grid.Row="1" Grid.Column="0" StaysOpenOnEdit="True"
+                      SelectionChanged="GroupNameCbx_SelectionChanged"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Студент"/>
+                    <ComboBox x:Name="StudentsCbx" Margin="0 10 10 10"
+                      IsEnabled="False" Grid.Row="1" Grid.Column="1"
+                      SelectionChanged="StudentsCbx_SelectionChanged"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Предмет"/>
+                    <ComboBox x:Name="SubjectCbx" Margin="0 10 10 10"
+                      IsEnabled="False" Grid.Row="3" Grid.Column="0"
+                      SelectionChanged="SubjectCbx_SelectionChanged"/>
+                </Grid>
+            </Expander>
+
+            <Expander x:Name="GeneralStudentInfoExp"  Header="Общая информация" IsExpanded="True" Visibility="Collapsed">
+                <StackPanel Orientation="Horizontal">
+                    <Grid Margin="10" HorizontalAlignment="Left">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="ℹ️" Foreground="#1A4780" VerticalAlignment="Center" MouseDown="AvgMarkRefInfo_MouseDown" Cursor="Hand"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Средний бал: "
+           FontWeight="Bold" TextWrapping="Wrap" 
+           ToolTip="Средняя оценка студента по всем тестам. Рассчитывается как среднее арифметическое последних полученных оценок за каждый тест."/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" x:Name="AvgMarkTbx"
+           VerticalAlignment="Bottom"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="ℹ️" Foreground="#1A4780" VerticalAlignment="Center" MouseDown="AvgPointsRatio_MouseDown" Cursor="Hand"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="Процент успешно выполенных заданий: "
+           FontWeight="Bold" TextWrapping="Wrap" Width="200"
+           Margin="0 10" ToolTip="Средний процент правильно решенных заданий по всем тестам. Показывает общую успешность студента в выполнении тестов."/>
+                        <TextBlock Grid.Row="1" Grid.Column="2" x:Name="AvgPointsRatioTbx"
+           Margin="0 10"
+           VerticalAlignment="Bottom"/>
+                        
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="ℹ️" Foreground="#1A4780" VerticalAlignment="Bottom" MouseDown="DinamicValue_MouseDown" Cursor="Hand"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="Прогресс: "
+           FontWeight="Bold" TextWrapping="Wrap"
+           Margin="0 10 0 0" ToolTip="Отношение результативности последнего теста к предпоследнему. Показывает, улучшилась или ухудшилась успеваемость студента в сравнении с предыдущей попыткой."/>
+                        <TextBlock Grid.Row="2" Grid.Column="2" x:Name="DinamicValueTbx"
+           Margin="0 10 0 0"
+           VerticalAlignment="Bottom"/>
+                    </Grid>
+                </StackPanel>
+            </Expander>
+
+            <Expander x:Name="ChartsStudentExp" Header="Диаграммы"
+                      IsExpanded="False" Visibility="Collapsed">
+                <StackPanel>
+                    <TabControl Margin="10" x:Name="ChartsStudentTcl">
+                        <TabItem>
+                            <TabItem.Header>Успеваемость по тестам</TabItem.Header>
+                            <TabItem.Content>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <lvc:CartesianChart x:Name="MarksChart" MinHeight="400" VerticalAlignment="Stretch"/>
+                                    <DataGrid x:Name="MarksDtg" Grid.Column="1" Background="Transparent" IsReadOnly="True" Visibility="Collapsed"/>
+                                </Grid>
+                            </TabItem.Content>
+                        </TabItem>
+                        <TabItem>
+                            <TabItem.Header>Результативность по тестам</TabItem.Header>
+                            <TabItem.Content>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <lvc:CartesianChart x:Name="TotalPointsChart" MinHeight="400" VerticalAlignment="Stretch"/>
+                                    <DataGrid x:Name="TotalPointsDtg" Grid.Column="1" Background="Transparent" IsReadOnly="True"/>
+                                </Grid>
+                            </TabItem.Content>
+                        </TabItem>
+                        <TabItem>
+                            <TabItem.Header>Попытки</TabItem.Header>
+                            <TabItem.Content>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <lvc:CartesianChart x:Name="AttemptsChart" MinHeight="400" VerticalAlignment="Stretch"/>
+                                    <DataGrid x:Name="AttemptsDtg" Grid.Column="1" Background="Transparent" IsReadOnly="True"/>
+                                </Grid>
+                            </TabItem.Content>
+                        </TabItem>
+                        <TabItem>
+                            <TabItem.Header>Ответы</TabItem.Header>
+                            <TabItem.Content>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Margin="10 0" Text="Тест"/>
+                                    <ComboBox x:Name="TestNameCbx" Margin="10 10 10 10" Grid.Row="1"
+                                          SelectionChanged="TestNameCbx_SelectionChanged" IsEnabled="False"/>
+                                    <lvc:CartesianChart x:Name="AnswersChart" Grid.ColumnSpan="2" Grid.Row="2" Height="300" VerticalAlignment="Stretch" Visibility="Collapsed"/>
+                                    <Grid Grid.Column="2" Grid.Row="2" x:Name="AnswersGrd">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Отметка за тест: "
+                                           FontWeight="Bold" TextWrapping="Wrap"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="TestMarkTbx"
+                                           VerticalAlignment="Bottom" Text="12"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Набрано балов: "
+                                           FontWeight="Bold" TextWrapping="Wrap"/>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" x:Name="TestPointsScoredTbx"
+                                           VerticalAlignment="Bottom" Text="12"/>
+                                        <DataGrid Margin="0 10 0 0" Grid.Row="2" Grid.ColumnSpan="2" x:Name="AnswersDtg" 
+                                                  Background="Transparent" IsReadOnly="True"
+                                                  BorderBrush="Transparent"/>
+                                    </Grid>
+                                </Grid>
+                            </TabItem.Content>
+                        </TabItem>
+                    </TabControl>
+                </StackPanel>
+            </Expander>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
